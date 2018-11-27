@@ -11,8 +11,8 @@ using namespace std;
 namespace
 {
 const string TEXTURE_PATH = APP_RES_PATH + "images/wood.png";
-const string TEXTURE_PATH_SPHERE = APP_RES_PATH + "images/billiard_art_ball_texture.png";
 const string TEXTURE_PATH_PLAIN = APP_RES_PATH + "images/floor.jpg";
+const string TEXTURE_PATH_BALL = APP_RES_PATH + "images/012.jpg";
 
 const unsigned int SKYBOX_FACE_COUNT = 6;
 const unsigned int SKYBOX_FACE_WIDTH  = 2048;
@@ -61,18 +61,17 @@ public:
 
 		Cube cb(TEXTURE_PATH, mShaderCube, Vector3(0.25, 0.25, 0.25));
 		Plane p(TEXTURE_PATH_PLAIN, mShaderCube, Vector2(4, 4));
-		Sphere s(TEXTURE_PATH_SPHERE, mShaderCube, 0.4f);
+		Sphere ball(TEXTURE_PATH_BALL, mShaderCube, 0.5f);
 
 		Instance* i1 = cb.CreateInstance(Vector3(0, 3, -6), Quaternion());
 		Instance* i2 = p.CreateInstance(Vector3(0, -3, -6), Quaternion());
-		Instance* i3 = s.CreateInstance(Vector3(-1.5f, 3, -6), Quaternion());
+		Instance* i3 = ball.CreateInstance(Vector3(1.5f, 3, -6), Quaternion());
 
 		Instance* light = cb.CreateInstance(Vector3(1, 5, -8), Quaternion());
 
 		i1->GetRigidBody()->setRestitution(0.3f);
 		i2->GetRigidBody()->setFriction(0.5f);
 		i2->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
-		i3->GetRigidBody()->setRestitution(0);
 
 		light->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
 
@@ -237,7 +236,7 @@ public:
 
 			if( IsKey(event, DALI_KEY_BRIGHTNESS_UP))
 			{
-				
+
 			}
 		}
 	}

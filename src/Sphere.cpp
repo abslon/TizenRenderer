@@ -51,7 +51,7 @@ Instance* Sphere::CreateInstance(Vector3 position, Quaternion rotation)
 void Sphere::SetGeometry()
 {
     PbrDemo::ObjLoader obj = PbrDemo::ObjLoader();
-    string filedir = APP_RES_PATH + "models/Sphere.obj";
+    string filedir = APP_RES_PATH + "models/biliard_ball.obj";
     ifstream file(filedir, ios::binary | ios::ate);
     vector<char> data;
     size_t size = file.tellg();
