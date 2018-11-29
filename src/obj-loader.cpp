@@ -358,6 +358,7 @@ bool ObjLoader::LoadObject( char* objBuffer, std::streampos fileSize )
       //Two different objects in the same file
       isline >> point.x;
       isline >> point.y;
+      point.y = -point.y;
       isline >> point.z;
       mPoints.PushBack( point );
 
@@ -367,6 +368,7 @@ bool ObjLoader::LoadObject( char* objBuffer, std::streampos fileSize )
     {
       isline >> point.x;
       isline >> point.y;
+      point.y = -point.y;
       isline >> point.z;
 
       mNormals.PushBack( point );

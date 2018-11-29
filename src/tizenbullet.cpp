@@ -67,13 +67,9 @@ public:
 		Instance* i2 = p.CreateInstance(Vector3(0, -3, -6), Quaternion());
 		Instance* i3 = ball.CreateInstance(Vector3(1.5f, 3, -6), Quaternion());
 
-		Instance* light = cb.CreateInstance(Vector3(1, 5, -8), Quaternion());
-
 		i1->GetRigidBody()->setRestitution(0.3f);
 		i2->GetRigidBody()->setFriction(0.5f);
 		i2->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
-
-		light->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
 
 		CreateSkyboxGeometry();
 		DisplaySkybox();
@@ -103,7 +99,7 @@ public:
 	{
 		mShaderCube = LoadShaders("vertexPhong.glsl", "fragmentPhong.glsl");
 		//mShaderCube = LoadShaders("vertexDiffuse.glsl", "fragmentDiffuse.glsl");
-		mShaderCube.RegisterProperty("uLightPos", Vector3(1, -5, -8));
+		mShaderCube.RegisterProperty("uLightPos", Vector3(-1, -1, -1));
 		mShaderCube.RegisterProperty("uViewPos", CAMERA_DEFAULT_POSITION);
 		mShaderCube.RegisterProperty("uLightColor", Vector3(1, 1, 1));
 		mShaderSkybox = LoadShaders("vertexSkybox.glsl", "fragmentSkybox.glsl");

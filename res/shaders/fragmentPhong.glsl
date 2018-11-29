@@ -16,13 +16,13 @@ in vec2 vTexCoord;
 void main()
 {
     // ambient
-    float ambientStrength = 0.1;
+    float ambientStrength = 0.25;
     vec3 ambient = ambientStrength * uLightColor;
     
     // diffuse
     vec3 norm = normalize(vNormal);
-        // directional light
-    vec3 lightDir = normalize(uLightPos - vFragPos);
+    // directional light
+    vec3 lightDir = normalize(uLightPos);
     float diff = max(dot(norm, lightDir), 0.0);
     vec3 diffuse = diff * uLightColor;
     
