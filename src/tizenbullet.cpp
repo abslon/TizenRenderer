@@ -5,6 +5,7 @@
 #include "Skybox.h"
 #include "Scene.h"
 #include "Background.h"
+#include "SLAMIO.h"
 
 class TizenBulletScene : public ConnectionTracker
 {
@@ -20,22 +21,24 @@ public:
 	void Create( Application& application )
 	{
 		application.GetWindow().SetSize(Window::WindowSize(640, 480));
-		// Disable indicator.
-		// It avoids reposition the camera to fit with the indicator height.
 		Dali::Window winHandle = application.GetWindow();
 		winHandle.ShowIndicator( Dali::Window::INVISIBLE );
 
-		// Get a handle to the stage
 		Stage stage = Stage::GetCurrent();
 		stage.GetRootLayer().SetBehavior(Layer::LAYER_3D);
+
+		mdTime = 0;
+
+		ReadCameraTrajectory();
 
 		SetupCamera();
 
 		// 0 means default scene contents
 		CreateSceneContents(SceneName::Default);
 
-		string TEMP_BACK = APP_RES_PATH + "rgb_stereo/1311868164.363181.png";
-		CreateBackground(TEMP_BACK);
+		//string TEMP_BACK = APP_RES_PATH + "rgb_stereo/1311868164.363181.png";
+		string path = GetBackgroundPath(mdTime);
+		CreateBackground(path);
 		//CreateSkybox();
 
 		// Connect to touch & key event signals
@@ -59,6 +62,10 @@ public:
 
 	bool Update()
 	{
+		mdTime += 0.016;
+
+		UpdateBackground(GetBackgroundPath(mdTime));
+
 		DynamicsWorld::GetInstance().Update();
 		return true;
 	}
@@ -85,6 +92,7 @@ private:
 	CameraActor mACamera;
 
 	Timer mTimer;
+	double mdTime;
 };
 
 

@@ -4,6 +4,5 @@
 #include "TBSystem.h"
 void CreateBackground(string path);
 void UpdateBackground(string path);
-void SetSensor(int s);
 
 #endif

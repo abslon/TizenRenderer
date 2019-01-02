@@ -1,7 +1,6 @@
 #include "TBSystem.h"
 #include "Shader.h"
 
-int sensor = 0;
 Actor mBackgroundActor;
 TextureSet mBackgroundTextureSet;
 
@@ -81,9 +80,4 @@ void UpdateBackground(string path)
 
     mBackgroundTextureSet.SetTexture( 0, texture );
     mBackgroundActor.GetRendererAt(0).SetTextures(mBackgroundTextureSet);
-}
-
-void SetSensor(int s)
-{
-    sensor = s;
 }

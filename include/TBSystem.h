@@ -14,6 +14,8 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <iomanip>
 
 using namespace Dali;
 using namespace Dali::Toolkit;
@@ -34,5 +36,7 @@ enum SensorType{
     Mono = 0,
     Stereo
 };
+
+const SensorType sensor = SensorType::Stereo;
 }
 #endif /* TBSYSTEM_H_ */
