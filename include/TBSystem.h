@@ -15,6 +15,10 @@
 #include <iostream>
 #include <fstream>
 
+using namespace Dali;
+using namespace Dali::Toolkit;
+using namespace std;
+
 namespace
 {
 const std::string APP_RES_PATH( "/home/medialab/Documents/TizenRenderer/res/" );
@@ -25,5 +29,10 @@ const float CAMERA_DEFAULT_FAR(  100.0f );
 const Dali::Vector3 CAMERA_DEFAULT_POSITION( 0.0f, 0.0f, 1.0f );
 
 const unsigned int UPDATE_INTERVAL = 16;
+
+enum SensorType{
+    Mono = 0,
+    Stereo
+};
 }
 #endif /* TBSYSTEM_H_ */

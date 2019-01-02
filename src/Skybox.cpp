@@ -1,8 +1,26 @@
 #include "Skybox.h"
+#include "TBSystem.h"
+#include "Shader.h"
 
 using namespace Dali;
 using namespace Dali::Toolkit;
 using namespace std;
+
+namespace
+{
+const unsigned int SKYBOX_FACE_COUNT = 6;
+const unsigned int SKYBOX_FACE_WIDTH  = 2048;
+const unsigned int SKYBOX_FACE_HEIGHT = 2048;
+const std::string SKYBOX_FACES[ SKYBOX_FACE_COUNT ] =
+{
+	APP_RES_PATH + "images/lake_right.jpg",
+	APP_RES_PATH + "images/lake_left.jpg",
+	APP_RES_PATH + "images/lake_top.jpg",
+	APP_RES_PATH + "images/lake_bottom.jpg",
+	APP_RES_PATH + "images/lake_back.jpg",
+	APP_RES_PATH + "images/lake_front.jpg"
+};
+}
 
 Geometry CreateSkyboxGeometry()
 {

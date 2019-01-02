@@ -1,20 +1,10 @@
 #include "TBSystem.h"
 #include "Shader.h"
 #include "look-camera.h"
-#include "Primitives.h"
+#include "DynamicsWorld.h"
 #include "Skybox.h"
-#include <string>
-
-using namespace Dali;
-using namespace Dali::Toolkit;
-using namespace std;
-
-namespace
-{
-const string TEXTURE_PATH = APP_RES_PATH + "images/wood.png";
-const string TEXTURE_PATH_PLAIN = APP_RES_PATH + "images/floor.jpg";
-const string TEXTURE_PATH_BALL = APP_RES_PATH + "images/012.jpg";
-}
+#include "Scene.h"
+#include "Background.h"
 
 class TizenBulletScene : public ConnectionTracker
 {
@@ -29,7 +19,7 @@ public:
 	// The init signal is received once (only) during the Application lifetime
 	void Create( Application& application )
 	{
-		application.GetWindow().SetSize(Window::WindowSize(640, 360));
+		application.GetWindow().SetSize(Window::WindowSize(640, 480));
 		// Disable indicator.
 		// It avoids reposition the camera to fit with the indicator height.
 		Dali::Window winHandle = application.GetWindow();
@@ -41,21 +31,12 @@ public:
 
 		SetupCamera();
 
-		CreateShaders();
+		// 0 means default scene contents
+		CreateSceneContents(SceneName::Default);
 
-		Cube cb(TEXTURE_PATH, mShaderCube, Vector3(0.25, 0.25, 0.25));
-		Plane p(TEXTURE_PATH_PLAIN, mShaderCube, Vector2(4, 4));
-		Sphere ball(TEXTURE_PATH_BALL, mShaderCube, 0.5f);
-
-		Instance* i1 = cb.CreateInstance(Vector3(0, 3, -6), Quaternion());
-		Instance* i2 = p.CreateInstance(Vector3(0, -3, -6), Quaternion());
-		Instance* i3 = ball.CreateInstance(Vector3(1.5f, 3, -6), Quaternion());
-
-		i1->GetRigidBody()->setRestitution(0.3f);
-		i2->GetRigidBody()->setFriction(0.5f);
-		i2->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
-
-		CreateSkybox();
+		string TEMP_BACK = APP_RES_PATH + "rgb_stereo/1311868164.363181.png";
+		CreateBackground(TEMP_BACK);
+		//CreateSkybox();
 
 		// Connect to touch & key event signals
 		stage.GetRootLayer().TouchedSignal().Connect( this, &TizenBulletScene::OnTouch );
@@ -74,14 +55,6 @@ public:
 		renderTask.SetCullMode( false ); // avoid frustum culling affecting the skybox
 
 		mLCamera.Initialise(CAMERA_DEFAULT_POSITION, CAMERA_DEFAULT_FOV, CAMERA_DEFAULT_NEAR, CAMERA_DEFAULT_FAR );
-	}
-
-	void CreateShaders()
-	{
-		mShaderCube = LoadShaders("vertexPhong.glsl", "fragmentPhong.glsl");
-		mShaderCube.RegisterProperty("uLightPos", Vector3(-1, -1, -1));
-		mShaderCube.RegisterProperty("uViewPos", CAMERA_DEFAULT_POSITION);
-		mShaderCube.RegisterProperty("uLightColor", Vector3(1, 1, 1));
 	}
 
 	bool Update()
@@ -110,8 +83,6 @@ private:
 	Application&  mApplication;
 	LookCamera mLCamera;
 	CameraActor mACamera;
-
-	Shader mShaderCube;
 
 	Timer mTimer;
 };
