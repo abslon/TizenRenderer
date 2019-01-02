@@ -14,7 +14,8 @@
 /*
  * Loads shader files from /res/shaders folder
  */
-
+namespace
+{
 Dali::Shader LoadShaders(const char* vertexPath, const char* fragmentPath)
 {
 
@@ -54,5 +55,5 @@ Dali::Shader LoadShaders(const char* vertexPath, const char* fragmentPath)
 
 	return Dali::Shader::New(vShaderCode, fShaderCode);
 }
-
+}
 #endif /* SHADER_H_ */

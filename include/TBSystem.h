@@ -15,6 +15,8 @@
 #include <iostream>
 #include <fstream>
 
+namespace
+{
 const std::string APP_RES_PATH( "/home/medialab/Documents/TizenRenderer/res/" );
 
 const float CAMERA_DEFAULT_FOV(    60.0f );
@@ -23,6 +25,5 @@ const float CAMERA_DEFAULT_FAR(  100.0f );
 const Dali::Vector3 CAMERA_DEFAULT_POSITION( 0.0f, 0.0f, 1.0f );
 
 const unsigned int UPDATE_INTERVAL = 16;
-
-
+}
 #endif /* TBSYSTEM_H_ */

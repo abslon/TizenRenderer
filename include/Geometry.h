@@ -10,6 +10,8 @@
 
 using namespace Dali;
 
+namespace
+{
 struct Vertex
 {
 	Vector3 aPosition;
@@ -17,7 +19,7 @@ struct Vertex
 	Vector3 aNormal;
 };
 
-static Vertex cubeVertices[] = {
+Vertex cubeVertices[] = {
 	{ Vector3(  1.0f,-1.0f,-1.0f ), Vector2( 1.0, 1.0 ), Vector3(0.0, 0.0, -1.0) },
 	{ Vector3( -1.0f, 1.0f,-1.0f ), Vector2( 0.0, 0.0 ), Vector3(0.0, 0.0, -1.0) },
 	{ Vector3(  1.0f, 1.0f,-1.0f ), Vector2( 0.0, 1.0 ), Vector3(0.0, 0.0, -1.0) },
@@ -57,7 +59,7 @@ static Vertex cubeVertices[] = {
 };
 
 
-static const unsigned short cubeIndex[] = {
+const unsigned short cubeIndex[] = {
 	2, 1, 0,
 	5, 4, 3,
 	8, 7, 6,
@@ -72,18 +74,18 @@ static const unsigned short cubeIndex[] = {
 	35, 34, 33
 };
 
-static Vertex planeVertices[] = {
+Vertex planeVertices[] = {
 	{Vector3(1.0f, 0.0f, 1.0f),   Vector2(1.0, 1.0), Vector3(0.0, -1.0, 0.0)},
 	{Vector3(-1.0f, 0.0f, -1.0f), Vector2(0.0, 0.0), Vector3(0.0, -1.0, 0.0)},
 	{Vector3(1.0f, 0.0f, -1.0f),  Vector2(1.0, 0.0), Vector3(0.0, -1.0, 0.0)},
 	{Vector3(-1.0f, 0.0f, 1.0f),  Vector2(0.0, 1.0), Vector3(0.0, -1.0, 0.0)},
 };
 
-static const unsigned short planeIndex[] = {
+const unsigned short planeIndex[] = {
 	2, 1, 0,
 	0, 1, 3,
 	3, 1, 0,
 	0, 1, 2
 };
-
+}
 #endif /* GEOMETRY_H_ */
