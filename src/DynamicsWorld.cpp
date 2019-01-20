@@ -1,5 +1,6 @@
 #include "DynamicsWorld.h"
 
+
 using namespace std;
 
 DynamicsWorld::DynamicsWorld()
@@ -28,6 +29,7 @@ void DynamicsWorld::SyncRigidBodies()
     for (int i = 0; i < _worldInstances.size(); i++)
     {
         _worldInstances[i]->UpdateTransform();
+        //_worldInstances[i]->UpdateUniforms(viewMat, projMat);
     }
 }
 

@@ -9,6 +9,13 @@ Instance::Instance(Actor actor, btRigidBody* rigidBody)
     _rigidBody = rigidBody;
 }
 
+void Instance::UpdateUniforms(Matrix viewMat, Matrix projMat)
+{
+    Shader shader = _actor.GetRendererAt(0).GetShader();
+    shader.RegisterProperty("uViewMat", viewMat);
+    shader.RegisterProperty("uProjMat", projMat);
+}
+
 void Instance::UpdateTransform()
 {
     btTransform trans;

@@ -4,12 +4,16 @@ in vec3 aPosition;
 in vec2 aTexCoord;
 in vec3 aNormal;
 
+//uniform mat4 uViewMat;
+//uniform mat4 uProjMat;
+
 uniform mat4 uMvpMatrix;
 uniform vec3 uSize;
 uniform mat3 uNormalMatrix;
 uniform mat4 uModelMatrix;
 uniform mat4 uModelView;
 uniform mat4 uViewMatrix;
+uniform mat4 uProjection;
 
 out vec3 vNormal;
 out vec3 vFragPos;

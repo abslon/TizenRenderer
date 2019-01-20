@@ -1,8 +1,16 @@
 #include "TBSystem.h"
 #include "SLAMIO.h"
+#include <btBulletDynamicsCommon.h>
+
+vector<double> mvCameraTimeline;
+vector<Vector3> mvCameraPosition;
+vector<Quaternion> mvCameraRotation;
+vector<string> mvStereoCameraRGBName;
+vector<Vector3> mvMapPoints;
 
 namespace
 {
+
 int recent_seqnum = 0;
 const string SEQ_MONO_PATH = APP_RES_PATH + "rgb_mono/";
 const string SEQ_STEREO_PATH = APP_RES_PATH;
@@ -109,7 +117,7 @@ void ReadStereoCameraTrajectory()
 
             Vector3 pos = Vector3();
             getline(s, token, ' ');
-            pos.x = stof(token);
+            pos.x = -stof(token);
             getline(s, token, ' ');
             pos.y = -stof(token);
             getline(s, token, ' ');
@@ -118,7 +126,7 @@ void ReadStereoCameraTrajectory()
 
             Vector4 quaternion = Vector4();
             getline(s, token, ' ');
-            quaternion.x = stof(token);
+            quaternion.x = -stof(token);
             getline(s, token, ' ');
             quaternion.y = stof(token);
             getline(s, token, ' ');
@@ -126,6 +134,19 @@ void ReadStereoCameraTrajectory()
             getline(s, token, ' ');
             quaternion.w = -stof(token);
             mvCameraRotation.push_back(Quaternion(quaternion));
+            // btQuaternion rot = btQuaternion();
+            // getline(s, token, ' ');
+            // rot.setX(stof(token));
+            // getline(s, token, ' ');
+            // rot.setY(stof(token));
+            // getline(s, token, ' ');
+            // rot.setZ(stof(token));
+            // getline(s, token, ' ');
+            // rot.setW(stof(token));
+            // Radian rad((float)rot.getAngle());
+            // Vector3 axis(rot.getAxis().getX(), rot.getAxis().getY(), rot.getAxis().getZ());
+            // mvCameraRotation.push_back(Quaternion(-rad,axis));
+            // mvCameraRotation.push_back(Quaternion(-rot.getW(), rot.getX(), rot.getY(), rot.getZ()));
         }
     } 
     else 
@@ -138,7 +159,7 @@ void ReadCameraTrajectory()
 {
     if(sensor == SensorType::Mono)
         ReadMonoCameraTrajectory();
-    else if(sensor == SensorType ::Stereo)
+    else if(sensor == SensorType::Stereo)
         ReadStereoCameraTrajectory();
 }
 

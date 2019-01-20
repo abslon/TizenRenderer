@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "Background.h"
 #include "SLAMIO.h"
+#include "Camera.h"
 
 class TizenBulletScene : public ConnectionTracker
 {
@@ -27,6 +28,7 @@ public:
 		Stage stage = Stage::GetCurrent();
 		stage.GetRootLayer().SetBehavior(Layer::LAYER_3D);
 
+		mPause = false;
 		mdTime = 0;
 
 		ReadCameraTrajectory();
@@ -34,9 +36,8 @@ public:
 		SetupCamera();
 
 		// 0 means default scene contents
-		CreateSceneContents(SceneName::Default);
+		CreateSceneContents(SceneName::Mappoint);
 
-		//string TEMP_BACK = APP_RES_PATH + "rgb_stereo/1311868164.363181.png";
 		string path = GetBackgroundPath(mdTime);
 		CreateBackground(path);
 		//CreateSkybox();
@@ -45,6 +46,8 @@ public:
 		stage.GetRootLayer().TouchedSignal().Connect( this, &TizenBulletScene::OnTouch );
 		stage.KeyEventSignal().Connect( this, &TizenBulletScene::OnKeyEvent );
 		
+		DynamicsWorld::GetInstance().Update();
+
 		mTimer = Timer::New(UPDATE_INTERVAL);
 		mTimer.TickSignal().Connect(this, &TizenBulletScene::Update);
 		mTimer.Start();
@@ -52,21 +55,28 @@ public:
 
 	void SetupCamera()
 	{
-		Stage stage = Stage::GetCurrent();
-
-		RenderTask renderTask = stage.GetRenderTaskList().GetTask( 0 );
-		renderTask.SetCullMode( false ); // avoid frustum culling affecting the skybox
-
-		mLCamera.Initialise(CAMERA_DEFAULT_POSITION, CAMERA_DEFAULT_FOV, CAMERA_DEFAULT_NEAR, CAMERA_DEFAULT_FAR );
+		// /* camera matrix setup
+		// 	fx  s   cx
+		// 	0   fy  cy
+		// 	0   0   1
+	 	//  */
+		// Matrix3 cameraMat = Matrix3(520.908620, 0, 325.141442, 
+		// 							0, 521.007327, 249.701764, 
+		// 							0, 0, 1);
+	
+		mCamera.Initialise(CAMERA_DEFAULT_POSITION, Vector2(640, 480), CAMERA_DEFAULT_NEAR, CAMERA_DEFAULT_FAR);
+		//mLCamera.Initialise(CAMERA_DEFAULT_POSITION, CAMERA_DEFAULT_FOV, CAMERA_DEFAULT_NEAR, CAMERA_DEFAULT_FAR );
 	}
 
 	bool Update()
 	{
-		mdTime += 0.016;
-
-		UpdateBackground(GetBackgroundPath(mdTime));
-
-		DynamicsWorld::GetInstance().Update();
+		if(!mPause)
+		{
+			mdTime += 0.016;
+			UpdateBackground(GetBackgroundPath(mdTime));
+			mCamera.Update(mdTime);
+			// DynamicsWorld::GetInstance().Update();
+		}
 		return true;
 	}
 
@@ -83,16 +93,29 @@ public:
 			{
 				mApplication.Quit();
 			}
+
+			//WASD
+			else if(event.keyCode == 25 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+			{
+				
+			}
+
+			else 
+			{
+				cout << "keycode: " << event.keyPressed + " " + event.keyPressedName + " " << event.keyCode << endl;
+				//mPause = !mPause;
+			}
 		}
 	}
 
 private:
 	Application&  mApplication;
-	LookCamera mLCamera;
-	CameraActor mACamera;
+	// LookCamera mLCamera;
+	MyCamera mCamera;
 
 	Timer mTimer;
 	double mdTime;
+	bool mPause;
 };
 
 

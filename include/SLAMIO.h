@@ -3,17 +3,15 @@
 
 #include "TBSystem.h"
 
-namespace
-{
-vector<double> mvCameraTimeline;
-vector<Vector3> mvCameraPosition;
-vector<Quaternion> mvCameraRotation;
+extern vector<double> mvCameraTimeline;
+extern vector<Vector3> mvCameraPosition;
+extern vector<Quaternion> mvCameraRotation;
 
-vector<string> mvStereoCameraRGBName;
-vector<Vector3> mvMapPoints;
-}
+extern vector<string> mvStereoCameraRGBName;
+extern vector<Vector3> mvMapPoints;
 
 void ReadCameraTrajectory();
+int SeqNumFromTimer(double timer);
 string GetBackgroundPath(double timer);
 
 #endif

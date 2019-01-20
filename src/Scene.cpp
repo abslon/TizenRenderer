@@ -38,10 +38,63 @@ void DefaultScene()
     i2->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
 }
 
+void MapPointScene()
+{
+    Shader mShaderCube = LoadDefaultShader();
+    Cube cb(TEXTURE_PATH, mShaderCube, Vector3(0.01, 0.01, 0.01));
+
+    string point_path = APP_RES_PATH + "mappoints/StereoMapPoints.txt";
+    ifstream in(point_path.c_str());
+    char buf[1000];
+
+    int l = 0;
+    if (in.is_open()) 
+    {
+        while (!in.eof()) 
+        {
+            try
+            {
+                in.getline(buf, 1000);
+                // ++l;
+                // if (l < 10)
+                //     continue;
+                // else
+                //     l = 0;
+                stringstream s;
+                s << buf;
+                string token;
+
+                Vector3 pos = Vector3();
+                getline(s, token, ' ');
+                pos.x = stof(token);
+                getline(s, token, ' ');
+                pos.y = stof(token);
+                getline(s, token, ' ');
+                pos.z = stof(token);
+                //mvMapPoints.push_back(pos);
+                cb.CreateInstance(pos, Quaternion())
+                    ->GetRigidBody()->setMassProps(btScalar(0), btVector3(0, 0, 0));
+            }
+            catch (const std::invalid_argument& e)
+            {
+                cout << e.what() << endl;
+                break; 
+            }
+        }
+    } 
+    else 
+    {
+        cout << "no point file!" << endl;
+    }
+}
+
 void CreateSceneContents(int sceneNumber)
 {
     switch(sceneNumber)
     {
+    case SceneName::Mappoint:
+        MapPointScene();
+        break;
     default:
         DefaultScene();
         break;

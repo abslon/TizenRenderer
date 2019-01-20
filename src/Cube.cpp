@@ -43,7 +43,7 @@ Instance* Cube::CreateInstance(Vector3 position, Quaternion rotation)
     btVector3 pos = trans.getOrigin();
     btQuaternion rot = trans.getRotation();
 
-    _actor.SetPosition(Vector3(pos.getX(), -pos.getY(), pos.getZ()));
+    _actor.SetPosition(Vector3(pos.getX(), pos.getY(), pos.getZ()));
     _actor.SetOrientation(Quaternion(rot.getW(), -rot.getX(), rot.getY(), -rot.getZ()));
 
 	Stage stage = Stage::GetCurrent();
