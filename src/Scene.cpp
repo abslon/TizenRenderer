@@ -41,7 +41,7 @@ void DefaultScene()
 void MapPointScene()
 {
     Shader mShaderCube = LoadDefaultShader();
-    Cube cb(TEXTURE_PATH, mShaderCube, Vector3(0.01, 0.01, 0.01));
+    Cube cb(TEXTURE_PATH, mShaderCube, Vector3(0.005, 0.005, 0.005));
 
     string point_path = APP_RES_PATH + "mappoints/StereoMapPoints.txt";
     ifstream in(point_path.c_str());

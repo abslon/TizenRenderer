@@ -21,14 +21,11 @@ public:
 	// The init signal is received once (only) during the Application lifetime
 	void Create( Application& application )
 	{
-		application.GetWindow().SetSize(Window::WindowSize(640, 480));
-		Dali::Window winHandle = application.GetWindow();
-		winHandle.ShowIndicator( Dali::Window::INVISIBLE );
-
 		Stage stage = Stage::GetCurrent();
 		stage.GetRootLayer().SetBehavior(Layer::LAYER_3D);
 
-		mPause = false;
+		// temperaly true
+		mDebug = true;
 		mdTime = 0;
 
 		ReadCameraTrajectory();
@@ -43,7 +40,7 @@ public:
 		//CreateSkybox();
 
 		// Connect to touch & key event signals
-		stage.GetRootLayer().TouchedSignal().Connect( this, &TizenBulletScene::OnTouch );
+		stage.GetRootLayer().TouchSignal().Connect( this, &TizenBulletScene::OnTouch );
 		stage.KeyEventSignal().Connect( this, &TizenBulletScene::OnKeyEvent );
 		
 		DynamicsWorld::GetInstance().Update();
@@ -70,18 +67,27 @@ public:
 
 	bool Update()
 	{
-		if(!mPause)
+		if(!mDebug)
 		{
 			mdTime += 0.016;
 			UpdateBackground(GetBackgroundPath(mdTime));
 			mCamera.Update(mdTime);
 			// DynamicsWorld::GetInstance().Update();
 		}
+		else
+		{
+			mCamera.OnDebugTick();
+		}
 		return true;
 	}
 
-	bool OnTouch( Actor actor, const TouchEvent& event )
+	bool OnTouch( Actor actor, const TouchData& touch )
 	{
+		if(mDebug)
+		{
+			cout << "touched" << endl;
+			mCamera.DebugRotate(actor, touch);
+		}
 		return true;
 	}
 
@@ -94,17 +100,45 @@ public:
 				mApplication.Quit();
 			}
 
-			//WASD
-			else if(event.keyCode == 25 || event.keyCode == 38 || event.keyCode == 39 || event.keyCode == 40)
+			// press space to pause & debug
+			else if(event.keyCode == 65)
 			{
 				
+				mDebug = !mDebug;
 			}
 
-			else 
+			// camera debug mode
+			if(mDebug)
 			{
-				cout << "keycode: " << event.keyPressed + " " + event.keyPressedName + " " << event.keyCode << endl;
-				//mPause = !mPause;
+				// WASDQE : Move
+				if(event.keyCode == 25 || event.keyCode == 38 || event.keyCode == 39 
+					|| event.keyCode == 40 || event.keyCode == 24 ||event.keyCode == 26 )
+				{
+					mCamera.DebugMove(event.keyCode);
+				}
+				// YHUJIK : Rotate with keys
+				else if(event.keyCode == 29 || event.keyCode == 43 || event.keyCode == 30 
+					|| event.keyCode == 44 || event.keyCode == 31 ||event.keyCode == 45 )
+				{
+					mCamera.DebugKeyRotate(event.keyCode);
+				}
+				// P : Print 
+				else if(event.keyCode == 33)
+				{
+					mCamera.DebugPrint();
+				}
+				// G : Change Move mode
+				else if(event.keyCode == 42)
+				{
+					mCamera.DeubgChangeMode();
+				}
+				// R : Reset
+				else if(event.keyCode == 27)
+				{
+					mCamera.DebugReset();
+				}	
 			}
+			// cout << "keycode: " << event.keyPressed + " " + event.keyPressedName + " " << event.keyCode << endl;
 		}
 	}
 
@@ -115,7 +149,7 @@ private:
 
 	Timer mTimer;
 	double mdTime;
-	bool mPause;
+	bool mDebug;
 };
 
 

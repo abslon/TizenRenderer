@@ -117,23 +117,25 @@ void ReadStereoCameraTrajectory()
 
             Vector3 pos = Vector3();
             getline(s, token, ' ');
-            pos.x = -stof(token);
+            pos.x = stof(token);
             getline(s, token, ' ');
-            pos.y = -stof(token);
+            pos.y = stof(token);
             getline(s, token, ' ');
             pos.z = stof(token);
             mvCameraPosition.push_back(pos);
 
             Vector4 quaternion = Vector4();
             getline(s, token, ' ');
-            quaternion.x = -stof(token);
+            quaternion.x = stof(token);
             getline(s, token, ' ');
             quaternion.y = stof(token);
             getline(s, token, ' ');
             quaternion.z = stof(token);
             getline(s, token, ' ');
-            quaternion.w = -stof(token);
+            quaternion.w = stof(token);
             mvCameraRotation.push_back(Quaternion(quaternion));
+
+            cout << pos << " " << quaternion << endl;
             // btQuaternion rot = btQuaternion();
             // getline(s, token, ' ');
             // rot.setX(stof(token));
